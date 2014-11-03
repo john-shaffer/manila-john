@@ -1,6 +1,6 @@
-# manila-john
+﻿# manila-john
 
-A Clojure library designed to ... well, that part is up to you.
+A CouchDB library which implements only what clutch does not.
 
 ## Usage
 

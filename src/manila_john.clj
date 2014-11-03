@@ -80,19 +80,10 @@
                [k (map-leaves f v)]
                [k (f v)]))))
 
-#_(defmacro defdbop
+(defmacro defdbop
   "Same as defn, but wraps the defined function in another that transparently
    allows for dynamic or explicit application of database configuration as well
    as implicit coercion of the first `db` argument to a URL instance."
-  [name & body]
-  `(do
-     (defn ~name ~@body)
-     (alter-var-root (var ~name) wrap-db-op)
-     (alter-meta! (var ~name) update-in [:doc] str
-                  "\n\n  When used within the dynamic scope of `with-db`, the initial `db`"
-                  "\n  argument is automatically provided.")))
-
-(defmacro defdbop
   [name-sym & body]
   `(do
      (util/defn-wrap ~name-sym wrap-db-op ~@body)
@@ -130,7 +121,12 @@
 
 (defdbop get-or-save-view [db ddoc-name view-key view-language compiled-view-fns
                            & [query-params-map post-data-map :as args]]
-  (try
+  (try                 
+            (prn "db:" db)
+            (prn "ddoc-name:" ddoc-name)
+            (prn "view-key:" view-key)
+            (prn "view-language:" view-language)
+            (prn "compiled-view-fns:" compiled-view-fns)
     (apply get-view db ddoc-name view-key args)
     (catch Exception e
       (let [ddoc-id (str "_design/" (url/url-encode ddoc-name))     ;FIX
@@ -147,37 +143,7 @@
       (all-docs {:keys keys})
       (->> (map :doc ))))
 
-(defn views-hash [view-fns]
-  (-> (into (sorted-map)
-            (for [[k v] view-fns]
-              [k (into (sorted-map) v)]))
-      pr-str
-      util/base16-md5))
-
 (defmacro defviews [options view-compiler-options & views]
-  "Usage: (defviews \"forum\" :javascript
-            (by-uri
-              \"function(doc) { emit(doc.uri)}\"
-              \"_count\"))
-          (by-uri db {:key \"/asd\"})"
-  (let [view-map (fn [[sym mapper reducer]]
-                   {(keyword (name sym))
-                    (if reducer ; :reduce nil makes Cloudant choke
-                      {:map mapper
-                       :reduce reducer}
-                      {:map mapper})})
-        [language view-fns] (->> (map view-map views)
-                                 (apply merge)
-                                 (view-server-fns-fn view-compiler-options))
-        ddoc-name (or (:ddoc-name options)
-                      (str (or (:ddoc-prefix options) "manila-john-auto-") (views-hash view-fns)))
-        clj-fn (fn [[sym _ _]]
-                 `(defdbop ~sym [db# & args#]
-                    (apply get-or-save-view db# ~ddoc-name ~(keyword (name sym))
-                           ~language ~view-fns args#)))]
-    `(do ~@(map clj-fn views))))
-
-#_(defmacro defviews [options view-compiler-options & views]
   "Usage: (defviews \"forum\" :javascript
            (by-uri
             \"function (doc) {
@@ -195,7 +161,7 @@
         view-fns (apply merge (map view-map views))
         [compiled-view-language compiled-view-fns] (view-server-fns-fn view-compiler-options view-fns)
         ddoc-name (or (:ddoc-name options)
-                      (str (or (:ddoc-prefix options) "manila-john-auto- ") (hash view-fns)))
+                      (str (or (:ddoc-prefix options) "manila-john-auto-") (hash view-fns)))
         sym-meta {:ddoc-name ddoc-name
                   :view-language view-language
                   :view-fns view-fns
