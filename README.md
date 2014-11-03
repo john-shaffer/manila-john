@@ -4,7 +4,7 @@ A CouchDB library which implements only what clutch does not.
 
 ## Usage
 
-FIXME
+[![Clojars Project](http://clojars.org/manila-john/latest-version.svg)](http://clojars.org/manila-john)
 
 ## License
 
