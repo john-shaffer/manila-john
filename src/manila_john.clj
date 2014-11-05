@@ -121,15 +121,10 @@
 
 (defdbop get-or-save-view [db ddoc-name view-key view-language compiled-view-fns
                            & [query-params-map post-data-map :as args]]
-  (try                 
-            (prn "db:" db)
-            (prn "ddoc-name:" ddoc-name)
-            (prn "view-key:" view-key)
-            (prn "view-language:" view-language)
-            (prn "compiled-view-fns:" compiled-view-fns)
+  (try
     (apply get-view db ddoc-name view-key args)
     (catch Exception e
-      (let [ddoc-id (str "_design/" (url/url-encode ddoc-name))     ;FIX
+      (let [ddoc-id (str "_design/" (url/url-encode ddoc-name))
             ddoc (or (get-document db ddoc-id) {:_id ddoc-id})]
         (if (= compiled-view-fns (:views ddoc))
           (throw e)
