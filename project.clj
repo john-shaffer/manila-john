@@ -19,6 +19,4 @@
   :min-lein-version "2.0.0"
   :repl-options {:init-ns manila-john}
   :test-selectors {:default #(not= 'test-docid-encoding (:name %))
-                   :all (constantly true)})  :min-lein-version "2.0.0"
-  :test-selectors {:default #(not= 'test-docid-encoding (:name %))
                    :all (constantly true)})
