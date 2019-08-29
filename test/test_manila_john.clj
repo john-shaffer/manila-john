@@ -19,7 +19,7 @@
                                                            emit (doc.uris [i].toLowerCase (), [doc.title, doc.price])}}}"
    "_count"))
 
-(defviews nil :cljs ;autocreate ddoc name
+#_(defviews nil :cljs ;autocreate ddoc name
   (by-price
    (fn [doc]
      (when (.-price doc)
@@ -47,7 +47,7 @@
   (is (= 3 (uri-count)))
   (is (= "wood" (-> {:reduce false} by-title last :key))))
 
-(deftest test-cljs-views
+#_(deftest test-cljs-views
   (is (= 2 (:count (by-price))))
   (is (= 5.5 (:min (by-price))))
   (is (= "Wood" (->> {:include_docs true, :limit 1, :reduce false}
@@ -61,7 +61,7 @@
 
 (deftest test-defviews
   (let [uri-meta (-> #'by-uri meta :manila-john)
-        price-meta (-> #'by-price meta :manila-john)]
+        #_price-meta #_(-> #'by-price meta :manila-john)]
     (testing "Test correct meta on view syms."
       (is (= "uris" (:ddoc-name uri-meta)))
       (is (= "by-uri" (:view-name uri-meta)))
@@ -70,25 +70,12 @@
       (is (= "function" (->> uri-meta :view-fns :by-uri :map (take 8))))
       (is (= "_count" (-> uri-meta :view-fns :by-uri :reduce)))
       (is (= (:view-fns uri-meta) (:compiled-view-fns uri-meta)))
-      (is (= "manila-john-auto-" (take 17 (:ddoc-name price-meta))))
-      (is (= "by-price" (:view-name price-meta)))
-      (is (= :clojurescript (:view-language price-meta)))
-      (is (= :javascript (:compiled-view-language price-meta)))
-      (is (= '(fn [doc]) (->> price-meta :view-fns :by-price :map (take 2))))
-      (is (= "_stats" (-> price-meta :view-fns :by-price :reduce)))
-      (is (= "(function" (->> price-meta :compiled-view-fns :by-price :map (take 9))))
-      (is (= "_stats" (-> price-meta :compiled-view-fns :by-price :reduce)))
+      #_(is (= "manila-john-auto-" (take 17 (:ddoc-name price-meta))))
+      #_(is (= "by-price" (:view-name price-meta)))
+      #_(is (= :clojurescript (:view-language price-meta)))
+      #_(is (= :javascript (:compiled-view-language price-meta)))
+      #_(is (= '(fn [doc]) (->> price-meta :view-fns :by-price :map (take 2))))
+      #_(is (= "_stats" (-> price-meta :view-fns :by-price :reduce)))
+      #_(is (= "(function" (->> price-meta :compiled-view-fns :by-price :map (take 9))))
+      #_(is (= "_stats" (-> price-meta :compiled-view-fns :by-price :reduce)))
       (is (= "titles-" (->> #'by-title meta :manila-john :ddoc-name (take 7)))))))
-
-(deftest test-emitter
-  (is (nil? (eval `(emit-results []))))
-  (is (nil? (eval `(emitter [doc#] [[r#]]))))
-  (is (= `fn (first (eval `(emitter [doc#] nil)))))
-  (let [e (eval `(emitter [doc#]
-                          (~`for [uri# (:uris doc#)]
-                            [uri# (:title doc#)])))
-        [_ e] (view-server-fns-fn :cljs {:e {:map e}})]
-    (is (nil? e))
-    (is (= [["/gold" "Gold"] ["/oro" "Gold"] ["/wood" "Wood"]]
-           (->> (get-or-save-view "e" :e :javascript e)
-                (map (juxt :key :value)))))))
