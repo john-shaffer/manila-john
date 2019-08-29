@@ -28,11 +28,13 @@
   with-db* com.ashafa.clutch/with-db*)
 
 (defmacro with-test-db
-  "Creates a randomly named test db on localhost:5984, runs the body inside with-db, and
-   finally deletes the db."
+  "Creates a randomly named test db on localhost:5984, runs the body inside
+   with-db, and finally deletes the db."
   [& body]
-  `(let [db# (str (or (System/getenv "MJ_TEST_SERVER") "http://localhost:5984")
-                  "/test-" (java.util.UUID/randomUUID))]
+  `(let [db# (url/url (if (seq (System/getenv "MJ_TEST_SERVER"))
+                        (System/getenv "MJ_TEST_SERVER")
+                        "http://localhost:5984")
+                  "test-" (java.util.UUID/randomUUID))]
      (try
        (create-db db#)
        (with-db db#
