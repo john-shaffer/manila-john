@@ -3,7 +3,7 @@
   :url "https://github.com/john-shaffer/manila-john"
   :license {:name "BSD"
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/clojurescript "0.0-1450" :optional true
                   :exclusions [com.google.code.findbugs/jsr305
                                com.googlecode.jarjar/jarjar
