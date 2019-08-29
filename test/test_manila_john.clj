@@ -11,7 +11,7 @@
 (use-fixtures :each
   (fixture-with-docs products))
 
-(defviews "uris" :javascript
+(defviews {:ddoc-name "uris"} :javascript
   (by-uri
    "function (doc) {
                    if (doc.uris) {
@@ -26,7 +26,7 @@
        (js/emit (.-price doc) (.-price doc))))
    "_stats"))
 
-(defviews {:ddoc-prefix "titles-"} :javascript
+(defviews "titles" :javascript
   (by-title
    "function (doc) {
                    if (doc.title) emit (doc.title.toLowerCase ())}"))
@@ -67,7 +67,7 @@
       (is (= "by-uri" (:view-name uri-meta)))
       (is (= :javascript (:view-language uri-meta)))
       (is (= :javascript (:compiled-view-language uri-meta)))
-      (is (= "function" (->> uri-meta :view-fns :by-uri :map (take 8))))
+      (is (str/starts-with? (->> uri-meta :view-fns :by-uri :map) "function"))
       (is (= "_count" (-> uri-meta :view-fns :by-uri :reduce)))
       (is (= (:view-fns uri-meta) (:compiled-view-fns uri-meta)))
       #_(is (= "manila-john-auto-" (take 17 (:ddoc-name price-meta))))
@@ -78,4 +78,4 @@
       #_(is (= "_stats" (-> price-meta :view-fns :by-price :reduce)))
       #_(is (= "(function" (->> price-meta :compiled-view-fns :by-price :map (take 9))))
       #_(is (= "_stats" (-> price-meta :compiled-view-fns :by-price :reduce)))
-      (is (= "titles-" (->> #'by-title meta :manila-john :ddoc-name (take 7)))))))
+      (is (str/starts-with? (->> #'by-title meta :manila-john :ddoc-name) "titles")))))
