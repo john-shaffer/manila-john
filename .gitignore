@@ -1,25 +1,11 @@
-# various editor-related files
-*~
-.*.sw*
-.#*
-\#*
-nb-configuration.xml
-.externalToolBuilders
-.lein*
-.project
-.settings
-.classpath
-
-# build artifacts
+/target
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
 *.jar
-build
-target
-lib
-classes
-autodoc
+*.class
+/.lein-*
+/.nrepl-port
 # cljs temporary output directory
 out
-
-# clojars
-pom.xml
-*clojars.org

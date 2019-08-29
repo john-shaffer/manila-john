@@ -1,26 +1,14 @@
-# Clutch  [![Travis CI status](https://secure.travis-ci.org/clojure-clutch/clutch.png)](http://travis-ci.org/#!/clojure-clutch/clutch/builds)
+# Manila John
 
-Clutch is a [Clojure](http://clojure.org) library for [Apache CouchDB](http://couchdb.apache.org/).
+Manila John is a [Clojure](http://clojure.org) library for [Apache CouchDB](http://couchdb.apache.org/). It is a fork of [Clutch](https://github.com/clojure-clutch/clutch).
 
 ## "Installation"
 
-To include Clutch in your project, simply add the following to your `project.clj` dependencies:
+To include Manila John in your project, simply add the following to your `project.clj` dependencies:
 
 ```clojure
-[com.ashafa/clutch "0.4.0"]
+[manila-john "0.5.0"]
 ```
-
-Or, if you're using Maven, add this dependency to your `pom.xml`:
-
-```
-<dependency>
-    <groupId>com.ashafa</groupId>
-    <artifactId>clutch</artifactId>
-    <version>0.4.0</version>
-</dependency>
-```
-
-Clutch is compatible with Clojure 1.2.0+, and requires Java 1.5+.
 
 ## Status
 
@@ -525,5 +513,3 @@ Appreciations go out to:
 ## License
 
 BSD.  See the LICENSE file at the root of this repository.
-
-
