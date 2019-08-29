@@ -34,7 +34,7 @@
   `(let [db# (url/url (if (seq (System/getenv "MJ_TEST_SERVER"))
                         (System/getenv "MJ_TEST_SERVER")
                         "http://localhost:5984")
-                  "test-" (java.util.UUID/randomUUID))]
+                  (str "test-" (java.util.UUID/randomUUID)))]
      (try
        (create-db db#)
        (with-db db#
