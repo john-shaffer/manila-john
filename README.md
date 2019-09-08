@@ -2,28 +2,13 @@
 
 Manila John is a [Clojure](http://clojure.org) library for [Apache CouchDB](http://couchdb.apache.org/). It is a fork of [Clutch](https://github.com/clojure-clutch/clutch).
 
-## "Installation"
+## Install
 
-To include Manila John in your project, simply add the following to your `project.clj` dependencies:
+Add the following dependency to your `project.clj` file:
 
 ```clojure
 [manila-john "0.5.0"]
 ```
-
-## Status
-
-Although it's in an early stage of development (Clutch API subject to change), Clutch supports most of the Apache CouchDB API:
-
-* Essentially all of the [core document API](http://wiki.apache.org/couchdb/HTTP_Document_API)
-* [Bulk document APIs](http://wiki.apache.org/couchdb/HTTP_Bulk_Document_API)
-* Most of the [Database API](http://wiki.apache.org/couchdb/HTTP_database_API), including `_changes` and a way to easily monitor/react to `_changes` events using Clojure's familiar watch mechanism
-* [Views](http://wiki.apache.org/couchdb/HTTP_view_API), including access, update, and a Clojure view server implementation
-
-Read the [documentation](doc/index.md) to learn the basics of Clutch. You can also look at the source or introspect the docs once you've loaded Clutch in your REPL.  
-
-Clutch does not currently provide any direct support for the various couchapp-related APIs, including update handlers and validation, shows and lists, and so on.
-
-That said, it is very easy to call whatever CouchDB API feature that Clutch doesn't support using the lower-level `com.ashafa.clutch.http-client/couchdb-request` function.
 
 ## Usage
 
