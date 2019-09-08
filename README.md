@@ -25,4 +25,4 @@ Appreciations go out to:
 
 ## License
 
-BSD 3-Clause License.  See the LICENSE file at the root of this repository.
+BSD 3-Clause License.  See the [LICENSE](https://github.com/john-shaffer/manila-john/blob/master/LICENSE) file at the root of this repository.
