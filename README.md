@@ -25,4 +25,4 @@ Appreciations go out to:
 
 ## License
 
-BSD.  See the LICENSE file at the root of this repository.
+BSD 3-Clause License.  See the LICENSE file at the root of this repository.
