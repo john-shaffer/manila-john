@@ -1,6 +1,6 @@
 # Manila John
 
-Manila John is a [Clojure](http://clojure.org) library for [Apache CouchDB](http://couchdb.apache.org/). It is a fork of [Clutch](https://github.com/clojure-clutch/clutch).
+Manila John is a [CouchDB](http://couchdb.apache.org/) library in [Clojure](http://clojure.org). It is a fork of [Clutch](https://github.com/clojure-clutch/clutch).
 
 ## Install
 
