@@ -1,6 +1,6 @@
 (ns manila-john 
   "A CouchDB library which implements only what clutch does not."
-  (:use com.ashafa.clutch)
+  (:use [com.ashafa.clutch :exclude (with-db)])
   (:require [manila-john.util :as util]
             [cemerick.url :as url]
             [com.ashafa.clutch [utils :as utils]]))
@@ -26,6 +26,9 @@
   save-design-doc save-design-document
   all-docs all-documents
   with-db* com.ashafa.clutch/with-db*)
+
+(defmacro with-db [db & body]
+  `(com.ashafa.clutch/with-db ~db ~@body))
 
 (defmacro with-test-db
   "Creates a randomly named test db on localhost:5984, runs the body inside
