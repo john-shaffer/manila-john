@@ -1,7 +1,7 @@
 (ns manila-john.views
   (:require [manila-john :as mj]))
 
-(mj/defviews {:ddoc-prefix "manila-john.views-"} :javascript
+(mj/defviews "manila-john.views" :javascript
   (conflicts-by-id
    "function (doc) {
                  if (doc._conflicts) {
@@ -25,6 +25,15 @@
 (defn doc-counter [type & [subtype]]
   (mj/dbop* [& [start-date end-date options :as args]]
             (apply doc-count type subtype args)))
+
+(mj/defdbop* docs [& [type subtype start-date end-date options]]
+  (->> {:startkey [type subtype start-date]
+        :endkey [(or type {})  (or subtype {}) (or end-date {})]
+        :reduce false
+        :include_docs true}
+       (merge options)
+       docs-by-type_subtype_created
+       (map :doc)))
 
 (mj/defdbop* conflict-count [& [options]]
   (-> options
